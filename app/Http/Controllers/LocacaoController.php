@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Carro;
+use App\Models\Locacao;
 use Illuminate\Http\Request;
 
-class CarroController extends Controller
+class LocacaoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CarroController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param  \App\Models\Locacao  $locacao
      * @return \Illuminate\Http\Response
      */
-    public function show(Carro $carro)
+    public function show(Locacao $locacao)
     {
         //
     }
@@ -52,10 +52,10 @@ class CarroController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param  \App\Models\Locacao  $locacao
      * @return \Illuminate\Http\Response
      */
-    public function edit(Carro $carro)
+    public function edit(Locacao $locacao)
     {
         //
     }
@@ -64,10 +64,10 @@ class CarroController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Carro  $carro
+     * @param  \App\Models\Locacao  $locacao
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Carro $carro)
+    public function update(Request $request, Locacao $locacao)
     {
         //
     }
@@ -75,10 +75,10 @@ class CarroController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param  \App\Models\Locacao  $locacao
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Carro $carro)
+    public function destroy(Locacao $locacao)
     {
         //
     }
