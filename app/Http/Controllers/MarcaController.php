@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
+    public function __construct(Marca $marca)
+    {
+        $this->marca = $marca;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +23,9 @@ class MarcaController extends Controller
         return $marcas;*/
 
         //get
-        $marcas = Marca::all();
-        return $marcas;
+        $marca = $this->marca->all();
+
+        return $marca;
     }
 
     /**
@@ -37,7 +42,7 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        $marca = Marca::create($request->all());
+        $marca = $this->marca->create($request->all());
         return $marca;
     }
 
@@ -47,8 +52,10 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function show(Marca $marca)
+    public function show($id)
     {
+        $marca = $this->marca->find($id);
+
         return $marca;
     }
 
@@ -61,8 +68,9 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Marca $marca)
+    public function update(Request $request, $id)
     {
+            $marca = $this->marca->find($id);
             $marca->update($request->all());
             return $marca;
     }
@@ -73,9 +81,11 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Marca $marca)
+    public function destroy($id)
     {
+       $marca = $this->marca->find($id);
        $marca->delete();
+
         return ['msg' =>'a marca foi removida com sucesso!'];
     }
 }
