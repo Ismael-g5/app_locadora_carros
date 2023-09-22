@@ -42,10 +42,18 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
+        $rules =
+        ['nome'=>'required|unique:marcas',
+        'imagem'=>'required'];
 
+        $feedback =
+        ['required'=>'o campo attribute é obrigatório',
+        'nome.unique'=>'o nome da marca ja existe'];
+
+        $request->validate($rules, $feedback);
 
         $marca = $this->marca->create($request->all());
-        return $marca;
+        return response()->json($marca, 201);
     }
 
     /**
