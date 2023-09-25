@@ -77,17 +77,6 @@ class MarcaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Marca $marca)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -120,10 +109,13 @@ class MarcaController extends Controller
         } else {
             $request->validate($marca->rules(), $marca->feedback());
         }
+            $imagem = $request->file('imagem');
+            $imagem_urn = $imagem->store('imagem', 'public');
 
+        $marca->update(['nome'=> $request->nome,
+                        'imagem'=> $imagem_urn]);
 
-        $marca->update($request->all());
-        return response()->json($marca, 200);
+                        return response()->json($marca, 200);
     }
 
     /**
