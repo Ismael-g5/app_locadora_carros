@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
+    public function __construct(Modelo $modelo){
+        $this->modelo = $modelo;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,8 @@ class ModeloController extends Controller
      */
     public function index()
     {
-        //
+        $modelo = $this->modelo->all();
+        return response()->json($modelo, 200);
     }
 
     /**
@@ -22,20 +26,26 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->modelo->rules());
+        //stateless
+
+
+        //forma de upload de arquivos
+        $imagem = $request->file('imagem');
+        $imagem_urn = $imagem->store('imagens', 'public');
+
+        $marca = $this->marca->create([
+            'nome' => $request->nome,
+            'imagem' => $imagem_urn
+        ]);
+        /*$marca->nome = $request->nome;
+        $marca->imagem = $imagem_urn;
+        $marca->save();*/
+
+        return response($imagem_urn)->json($marca, 201);
     }
 
     /**
