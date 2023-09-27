@@ -20,8 +20,7 @@ class MarcaController extends Controller
     public function index()
     {
         //$marcas = Marca::all();
-        $marcas = $this->marca->all();
-        return response()->json($marcas, 200);
+        return response()->json($this->marca->with('modelos')->get(), 200);
     }
 
 
@@ -46,9 +45,7 @@ class MarcaController extends Controller
             'nome' => $request->nome,
             'imagem' => $imagem_urn
         ]);
-        /*$marca->nome = $request->nome;
-        $marca->imagem = $imagem_urn;
-        $marca->save();*/
+
 
         return response($imagem_urn)->json($marca, 201);
     }
@@ -61,7 +58,7 @@ class MarcaController extends Controller
      */
     public function show($id)
     {
-        $marca = $this->marca->find($id);
+        $marca = $this->marca->with('modelos')->find($id);
         if($marca === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe'], 404) ;
         }
@@ -102,7 +99,8 @@ class MarcaController extends Controller
         } else {
             $request->validate($marca->rules(), $marca->feedback());
         }
-            //remove o arquivo de imagem antigo caso esse sofra alguma autalização
+
+        //remove o arquivo de imagem antigo caso esse sofra alguma autalização
             if($request->file('imagem')){
                 Storage::disk('public')->delete($marca->imagem);
             }
@@ -110,10 +108,16 @@ class MarcaController extends Controller
             $imagem = $request->file('imagem');
             $imagem_urn = $imagem->store('imagens', 'public');
 
-        $marca->update(['nome'=> $request->nome,
-                        'imagem'=> $imagem_urn]);
+            //para evitar o erro da constraint null para nome
+            $marca->fill($request->all());
+            $marca->imagem = $imagem_urn;
 
-                        return response()->json($marca, 200);
+            $marca->save();
+
+           /* $marca->update(['nome'=> $request->nome,
+           'imagem'=> $imagem_urn]);*/
+
+           return response()->json($marca, 200);
     }
 
     /**

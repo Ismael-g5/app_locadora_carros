@@ -31,4 +31,10 @@ class Modelo extends Model
         'nome.min'=>'o nome deve ter ao menos 3 caracteres',
     'imagem.mimes'=>'a imagem precisa ser algum arquivo do tipo (png, jpg, pdf, svg)'];
     }
+
+
+    public function marca()
+    {
+            return $this->belongsTo('App\Models\Marca');
+    }
 }
