@@ -27,6 +27,18 @@ class ModeloController extends Controller
         } else {
             $modelos = $this->modelo->with('marca');
         }
+            if($request->has('filtro'))
+            {
+                $filtros = explode(';', $request->filtro);
+                    foreach($filtros as $key => $condicao){
+                        $c = explode(':',$condicao);
+                        $modelos = $modelos->where($c[0], $c[1], $c[2]);
+                    }
+
+                $condicoes = explode(':',$request->filtro);
+                $modelos = $modelos->where($condicoes[0], $condicoes[1], $condicoes[2]);
+            }
+
 
         if($request->has('atributos')) {
             $atributos = $request->atributos;
@@ -41,15 +53,6 @@ class ModeloController extends Controller
         //get() -> modificar a consulta -> collection
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -93,16 +96,7 @@ class ModeloController extends Controller
         return response()->json($modelo, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Modelo  $modelo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Modelo $modelo)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
