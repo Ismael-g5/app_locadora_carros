@@ -11,6 +11,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -33,7 +35,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Clientes</a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Locações</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Veiculos
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Carros</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Marcas</a>
+                                <a class="dropdown-item" href="#">Modelos</a>
+                            </div>
+                        </li>
+
+
+
+                    @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
