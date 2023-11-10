@@ -73,7 +73,6 @@
             </template>
         </modal-component>
 
-
     </div>
 </template>
 
@@ -98,10 +97,33 @@
                 nomeMarca: '',
                 arquivoImagem: [],
                 transacaoStatus: '',
-                transacaoDetalhes: {}
+                transacaoDetalhes: {},
+                marcas: []
             }
         },
         methods: {
+
+            carregarLista(){
+
+//o let config insere o cabeçalho authorization para garantir a passagem do token
+                let config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': this.token
+                    }
+                }
+
+
+                axios.get(this.urlBase, config)
+                    .then(reponse =>{
+                        this.marcas = reponse.data
+                        console.log(this.marcas)
+                    })
+                    .catch(errors =>{
+                        console.log(errors)
+                    })
+        },
+
             carregarImagem(e) {
                 this.arquivoImagem = e.target.files
             },
@@ -137,6 +159,9 @@
                         //errors.response.data.message
                     })
             }
+        },
+        mounted(){
+            this.carregarLista()
         }
     }
 </script>
