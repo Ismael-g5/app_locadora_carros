@@ -56,14 +56,14 @@
                     <input-container-component titulo="Nome da marca" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome da marca">
                         <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
                     </input-container-component>
-                    {{ nomeMarca }}
+                    <!--{{ nomeMarca }}-->
                 </div>
 
                 <div class="form-group">
                     <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
                         <input type="file" class="form-control-file" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
                     </input-container-component>
-                    {{ arquivoImagem }}
+                   <!--{{ arquivoImagem }}-->
                 </div>
             </template>
 
@@ -98,7 +98,7 @@
                 nomeMarca: '',
                 arquivoImagem: [],
                 transacaoStatus: '',
-                transacaoDetalhes: []
+                transacaoDetalhes: {}
             }
         },
         methods: {
@@ -123,12 +123,17 @@
                 axios.post(this.urlBase, formData, config)
                     .then(response => {
                         this.transacaoStatus = 'adicionado'
-                        this.transacaoDetalhes = response
+                        this.transacaoDetalhes = {
+                            mensagem:'ID do registro: ' + response.data.id
+                        }
                         console.log(response)
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
-                        this.transacaoDetalhes = errors.response
+                        this.transacaoDetalhes = {
+                            mensagem: errors.response.data.message,
+                            dados: errors.response.data.errors
+                        }
                         //errors.response.data.message
                     })
             }

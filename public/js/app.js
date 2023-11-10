@@ -5237,7 +5237,7 @@ __webpack_require__.r(__webpack_exports__);
       nomeMarca: '',
       arquivoImagem: [],
       transacaoStatus: '',
-      transacaoDetalhes: []
+      transacaoDetalhes: {}
     };
   },
   methods: {
@@ -5259,11 +5259,16 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
         _this.transacaoStatus = 'adicionado';
-        _this.transacaoDetalhes = response;
+        _this.transacaoDetalhes = {
+          mensagem: 'ID do registro: ' + response.data.id
+        };
         console.log(response);
       })["catch"](function (errors) {
         _this.transacaoStatus = 'erro';
-        _this.transacaoDetalhes = errors.response;
+        _this.transacaoDetalhes = {
+          mensagem: errors.response.data.message,
+          dados: errors.response.data.errors
+        };
         //errors.response.data.message
       });
     }
@@ -5324,7 +5329,7 @@ var render = function render() {
     attrs: {
       role: "alert"
     }
-  }, [_vm._v("\n    " + _vm._s(_vm.titulo) + "\n    "), _c("hr"), _vm._v(" "), _vm.detalhes.data.message ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.message))]) : _vm._e(), _vm._v(" "), _vm.detalhes.data.id ? _c("span", [_vm._v(_vm._s("ID do registro: " + _vm.detalhes.data.id))]) : _vm._e(), _vm._v(" "), _c("br"), _vm._v(" "), _vm.detalhes.data.errors ? _c("ul", _vm._l(_vm.detalhes.data.errors, function (e, key) {
+  }, [_vm._v("\n    " + _vm._s(_vm.titulo) + "\n    "), _c("hr"), _vm._v(" "), _c("p", [_vm._v(" " + _vm._s(_vm.detalhes.mensagem))]), _vm._v(" "), _c("br"), _vm._v(" "), _vm.detalhes.dados ? _c("ul", _vm._l(_vm.detalhes.dados, function (e, key) {
     return _c("li", {
       key: key
     }, [_vm._v(_vm._s(e[0]))]);
@@ -5802,7 +5807,7 @@ var render = function render() {
               _vm.nomeMarca = $event.target.value;
             }
           }
-        })]), _vm._v("\n                " + _vm._s(_vm.nomeMarca) + "\n            ")], 1), _vm._v(" "), _c("div", {
+        })])], 1), _vm._v(" "), _c("div", {
           staticClass: "form-group"
         }, [_c("input-container-component", {
           attrs: {
@@ -5824,7 +5829,7 @@ var render = function render() {
               return _vm.carregarImagem($event);
             }
           }
-        })]), _vm._v("\n                " + _vm._s(_vm.arquivoImagem) + "\n            ")], 1)];
+        })])], 1)];
       },
       proxy: true
     }, {
