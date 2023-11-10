@@ -28,10 +28,13 @@
                 <!-- fim do card de busca -->
 
 
-                <!-- início do card de listagem de marcas -->
+                <!-- início do card de listagem de marcas, para passar arrays, use sempre o v-bind, para assim o vue interpretar normalmente -->
                 <card-component titulo="Relação de marcas">
                     <template v-slot:conteudo>
-                        <table-component></table-component>
+                        <table-component
+                        :dados="marcas"
+                        :titulos="['ID', 'Nome', 'Imagem']">
+                    </table-component>
                     </template>
 
                     <template v-slot:rodape>
@@ -117,7 +120,7 @@
                 axios.get(this.urlBase, config)
                     .then(reponse =>{
                         this.marcas = reponse.data
-                        console.log(this.marcas)
+                        //console.log(this.marcas)
                     })
                     .catch(errors =>{
                         console.log(errors)
