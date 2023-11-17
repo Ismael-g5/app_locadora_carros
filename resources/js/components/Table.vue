@@ -3,25 +3,24 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th v-for="t, key in titulos" :key="key" class="text-uppercase">{{ t }}</th>
+                    <th v-for="t, key in titulos" :key="key">{{ t.titulo }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="obj in dados" :key="obj.id">
-                    <td v-if="titulos.includes(chave)" v-for="valor, chave in obj" :key="chave">
-                        <span v-if="chave == 'imagem'">
+                <tr v-for="obj in dadosFiltrados" :key="chave">
+                    <td v-for="valor, chaveValor in obj"  :key="chaveValor">
+                        <span v-if="titulos[chaveValor].tipo == 'text'">{{ valor }}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'data'">{{ '...' + valor }}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'imagem'">
                             <img :src="'/storage/'+valor" width="30px" height="30px">
                         </span>
-                        <span v-else>
-                            {{ valor }}
-                        </span>
-                    </td>
-                    <!--  <th scope="row">{{ m.id }}</th>
-                    <td>{{ m.nome }}</td>
-                    <td><img :src="'/storage/' + m.imagem" width="30" height="30"></td>
-                  -->
 
+
+                    </td>
                 </tr>
+
+
+
             </tbody>
         </table>
     </div>
@@ -29,6 +28,27 @@
 
 <script>
 export default {
-    props: ['dados', 'titulos']
+    props: ['dados', 'titulos'],
+    computed: {
+        dadosFiltrados(){
+           let campos = Object.keys(this.titulos)
+           let dadosFiltrados = [];
+
+            // map mapeia cada função que esta sendo passada na list
+            this.dados.map((item, chave) => {
+
+                let itemFiltrado = {}
+                campos.forEach(campo => {
+
+                    itemFiltrado[campo] = item[campo]; // a sintaxe [] de array pode ser usada para atribuir valores a objetos
+
+                })
+                dadosFiltrados.push(itemFiltrado)
+            })
+
+
+            return dadosFiltrados;
+        }
+    }
 }
 </script>
